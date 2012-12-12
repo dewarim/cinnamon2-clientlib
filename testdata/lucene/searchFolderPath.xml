@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Remember to lowercase the search terms. Folder.name == testFolder / search term == testfolder -->
+<BooleanQuery><Clause occurs="must"><TermQuery fieldName="folderpath">/testfolder/insidefolder1</TermQuery></Clause>
+</BooleanQuery>

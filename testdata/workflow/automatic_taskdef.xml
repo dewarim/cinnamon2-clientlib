@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<meta>
+    <metaset type="task_definition">
+        <name>cinnamon.test.AutomaticStartTask</name>
+        <manual>false</manual>
+        <description>Test a non-manual workflow.</description>
+        <input>
+            <required></required>
+            <optional></optional>
+        </input>
+    </metaset>
+    <metaset type="transition">
+        <manual>false</manual>
+        <default>auto_transition</default>
+        <transition>
+            <name>auto_transition</name>
+            <label>-</label>
+            <class>workflow.transition.test.AutoTransition</class>
+            <tasks>
+            </tasks>
+        </transition>
+    </metaset>
+</meta>

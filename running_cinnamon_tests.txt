@@ -1,0 +1,82 @@
+Running CinnamonClient Tests
+
+You need:
+
+1. CINNAMON_HOME_DIR and safran.xml
+
+CINNAMON_HOME_DIR set to a directory where a valid cinnamon_config.xml can be found, which
+has to be named "safran.xml".
+The safran.xml file has to use a persistence-unit which does not change the database,
+and it is recommended for it to use a dedicated test database.
+
+<?xml version="1.0" encoding="UTF-8"?>                            
+<cinnamon_config>                                                        
+  <system_root>/home/ingo/cinnamon/cinnamon-system/</system_root>
+  <data_root>/home/ingo/cinnamon/cinnamon-data/</data_root>      
+                                                                 
+  <repositories>                                                 
+        <repository>
+          <name>cmn_test</name>
+		<persistence_unit>cinnamon</persistence_unit>
+		<apiClasses>
+			<apiClass>server.CmdInterpreter</apiClass>
+		</apiClasses>		
+        </repository>                                                                                                                       
+  </repositories>                                                                                                                           
+                                                                                                                                            
+	<!-- Postgres: -->
+  <db_type>postgresql</db_type>
+  <jdbc_protocol>postgresql</jdbc_protocol>
+  <jdbc_driver>org.postgresql.Driver</jdbc_driver>
+  <sql_host>192.168.0.104</sql_host>
+  <sql_user>cinnamon</sql_user>
+  <sql_pwd>cinnamon</sql_pwd>
+</cinnamon_config>
+ 
+ When using PostgreSQL, you should make sure that your machine is able to connect to the 
+ database server (for example, edit /etc/postgresql/8.3/main/pg_hba.conf on the db-server).
+ 
+2. client.properties
+A client.properties file has to be placed in the directory from where the tests are run.
+Example:
+server=192.168.0.104
+port=8080
+path_to_servlet=/cinnamon
+server.url=http://192.168.0.104:8080/cinnamon/cinnamon
+server.username=admin
+server.password=admin
+# used by Setup script to determine which database to initialize / use
+default_repository=cmn_test
+tomcat_manager=admin
+tomcat_password=admin
+tomcat_manager_reload=/manager/html/reload
+customTableTest.jdbcDriver=org.postgresql.Driver
+
+3. Dependencies
+You will need the entitylib.jar and the utils.jar, which can be build via the build-script of 
+a fully configured Server dir. (See Server/build.example.xml)
+Further dependencies are listed in the dependencies.txt file.
+
+4. Paths
+The folder testdata has to in the same directory from where the tests are run. If you check out
+the CinnamonClient as top directory, you probably need a symlink to testdata (as testdata is in Safran).
+If you just check out CinnamonClient/Safran, no symlink is needed.
+
+If you check out CinnamonClient:
+CinnamonClient/Safran
+CinnamonClient/Safran/testdata
+Symlink: CinnamonClient/testdata => CinnamonClient/Safran/testdata
+
+Note: Safran is only the first CinnamonClient. There may be others, so it makes a little sense to have
+the Safran-specific testdata in Safran/testdata.
+
+
+Known problems:
+- WorkflowTest will probably not run.
+- Xml2SqlTest depends on having certain files on the server. See Server/docs/xml2sql.txt
+	Xml2SqlTest is currently not important.
+- Running all tests (or one test many times) may result in the Server running out of memory,
+as the each test will reload the cinnamon.war to get a fresh test database.
+- It is currently not possible to run all tests at once with TestNG, as each test program needs
+a fresh database and will become confused if there are already test artifacts from other,
+concurrently running tests.

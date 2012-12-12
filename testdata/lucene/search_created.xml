@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- search for documents created in 2009. 
+ -->
+<ConstantScoreQuery>
+	<RangeFilter fieldName="created.date" lowerTerm="20090101" upperTerm="20991231"/>
+</ConstantScoreQuery>    

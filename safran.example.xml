@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cinnamon_config>
+
+    <log_verbosity>OFF</log_verbosity>
+
+    <system_root>/home/ingo/cinnamon/cinnamon-system/</system_root>
+    <data_root>/home/ingo/cinnamon/cinnamon-data/</data_root>
+
+    <repositories>
+        <repository>
+            <name>cmn_test</name>
+            <persistence_unit>cinnamon</persistence_unit>
+            <!-- changed to cinnamon, so we do not delete stuff accidentally by using "create"-Strategy.-->
+            <!-- look into cinnamon_config.xml for more configuration options -->
+        </repository>
+    </repositories>
+
+    <db_type>postgresql</db_type>
+    <jdbc_protocol>postgresql</jdbc_protocol>
+    <jdbc_driver>org.postgresql.Driver</jdbc_driver>
+    <sql_host>127.0.0.1</sql_host>
+    <sql_user>cinnamon</sql_user>
+    <sql_pwd>cinnamon</sql_pwd>
+    <logback_configuration_path>/home/ingo/cinnamon/logback.xml</logback_configuration_path>
+
+    <use_session_logging>false</use_session_logging>
+
+    <!-- NOTE: Cinnamon *must* be explicitly compiled to make use of a different database,
+      simply changing the configuration file is not enough! -->
+
+    <!-- MySQL -->
+    <!--
+        <db_type>mysql</db_type>
+        <jdbc_protocol>mysql</jdbc_protocol>
+        <jdbc_driver>com.mysql.jdbc.Driver</jdbc_driver>
+    -->
+    <!-- MSSQL 2000 -->
+    <!--
+        <db_type>mssql2000</db_type>
+        <jdbc_driver>net.sourceforge.jtds.jdbc.Driver</jdbc_driver>
+        <jdbc_protocol>sqlserver</jdbc_protocol>
+     -->
+
+    <workflow_server_username>WorkflowServer</workflow_server_username>
+
+</cinnamon_config>

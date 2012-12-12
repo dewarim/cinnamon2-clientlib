@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- test data contains 12.34 which should be indexed as 00000000012.34000000.
+Apparently, it _is_ indexed with "," instead of ".", which may be a locale-dependent feature.
+-->
+<TermQuery fieldName="content">00000000003.14159265</TermQuery>
+						<!--   00000000000.00000000 -->

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<BooleanQuery>
+    <!-- testing a query from RenderServer which should have failed, but did not. -->
+    <Clause occurs="must">
+        <TermQuery fieldName="name">alice</TermQuery>
+    </Clause>
+    <Clause occurs="must">
+        <TermQuery fieldName="name">cindy</TermQuery>
+    </Clause>
+</BooleanQuery>

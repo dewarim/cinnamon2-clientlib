@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- test data contains a name element with value "Alice in Wonderland" -->
+<SpanNear slop="1" inOrder="true" fieldName="content">
+	<SpanTerm>alice</SpanTerm>
+	<SpanTerm>wonderland</SpanTerm>
+</SpanNear>

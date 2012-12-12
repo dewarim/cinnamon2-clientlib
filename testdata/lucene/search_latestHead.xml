@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- search for documents which are latestHead version == true.
+ -->
+<TermQuery fieldName="latesthead">true</TermQuery>

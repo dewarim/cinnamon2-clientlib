@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- search for documents created on a day, ie: all.
+ -->
+<ConstantScoreQuery>
+	<RangeFilter fieldName="created.time" lowerTerm="000000" upperTerm="235959"/>
+</ConstantScoreQuery>    

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- search for documents created at midnight.
+Note: this query will fail if you run the test at midnight. But then, if
+you need to do this, something else has failed, too.
+ -->
+<ConstantScoreQuery>
+	<RangeFilter fieldName="created.time" lowerTerm="000000" upperTerm="000001"/>
+</ConstantScoreQuery>    

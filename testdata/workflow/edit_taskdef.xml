@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<meta>
+    <metaset type="task_definition">
+        <name>cinnamon.test.EditTask</name>
+        <manual>true</manual>
+        <description>Review the document</description>
+        <input>
+            <fixed>    <!-- This parameter should be set via the transition leading here. -->
+                <param>
+                    <type>document</type>
+                    <!-- id of a Cinnamon document -->
+                    <label>document</label>
+                    <name>document</name>
+                    <value></value>
+                </param>
+            </fixed>
+            <required>
+                <param>
+                    <type>user</type>
+                    <!-- a Cinnamon user id -->
+                    <label>reviewer</label>
+                    <!-- screen label -->
+                    <name>reviewer</name>
+                    <!-- parameter name -->
+                    <value></value>
+                </param>
+            </required>
+            <optional>
+                <param>
+                    <type>string</type>
+                    <label>message.to.editor</label>
+                    <name>message</name>
+                    <value></value>
+                </param>
+            </optional>
+        </input>
+    </metaset>
+    <metaset type="transition">
+        <manual>true</manual>
+        <default>edit_to_review</default>
+        <transition>
+            <show>true</show>
+            <name>edit_to_review</name>
+            <label>transition.edit_to_review</label>
+            <class>workflow.transition.test.EditToReview</class>
+            <tasks>
+                <task name="review_task">cinnamon.test.ReviewTask</task>
+            </tasks>
+        </transition>
+        <transition>
+            <show>true</show>
+            <confirm>true</confirm>
+            <name>cancel.review</name>
+            <label>transition.cancel.review</label>
+            <class>workflow.transition.test.CancelReviewWorkflow</class>
+        </transition>
+    </metaset>
+</meta>

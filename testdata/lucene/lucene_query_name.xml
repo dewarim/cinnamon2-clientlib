@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<BooleanQuery fieldName="content">
+	<Clause occurs="must">
+		<TermQuery>apples</TermQuery>
+	</Clause>
+ 	<Clause occurs="should">
+		<TermQuery>nuts</TermQuery>
+	</Clause>
+	<Clause occurs="mustnot">
+		<TermQuery>oranges</TermQuery>
+	</Clause>
+</BooleanQuery>

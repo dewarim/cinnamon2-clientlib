@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<meta>
+    <metaset type="task_definition">
+        <name>cinnamon.test.StartTask</name>
+        <manual>true</manual>
+        <description>Configuration of the Review Workflow</description>
+        <input>
+            <required>
+                <param>
+                    <type>user</type>
+                    <!-- a Cinnamon user id -->
+                    <label>reviewer</label>
+                    <!-- screen label -->
+                    <name>reviewer</name>
+                    <!-- parameter name -->
+                    <value></value>
+                    <valueAssistance>set_to_owner</valueAssistance>
+                    <!-- the content of valueAssistance should be something from
+                         which the client can deduce the proper param value (or a select list) -->
+                </param>
+                <param>
+                    <type>document</type>
+                    <!-- id of a Cinnamon document -->
+                    <label>document</label>
+                    <name>document</name>
+                    <value></value>
+                    <valueAssistance>set_to_document</valueAssistance>
+                </param>
+            </required>
+            <optional></optional>
+        </input>
+    </metaset>
+    <metaset type="transition">
+        <manual>true</manual>
+        <default>start_task_to_review_task</default>
+        <deadline_transition>deadline_transition</deadline_transition>
+        <transition>
+            <show>true</show>
+            <confirm>false</confirm>
+            <name>start_task_to_review_task</name>
+            <label>transition.start.review</label>
+            <class>workflow.transition.test.StartToReview</class>
+            <tasks>
+                <task name="review_task">cinnamon.test.ReviewTask</task>
+                <!-- how does this transition find the new task to create?
+                    the task@name is a constant, the content of the element ("ReviewTask") is
+                    the configurable name of the task object.
+                    This way, we can change the task object without compiling.
+                -->
+            </tasks>
+        </transition>
+        <transition>
+            <show>true</show>
+            <confirm>true</confirm>
+            <name>cancel.review</name>
+            <label>transition.cancel.review</label>
+            <class>workflow.transition.test.CancelReviewWorkflow</class>
+        </transition>
+        <transition>
+            <show>false</show>
+            <name>deadline_transition</name>
+            <label>transition.deadline</label>
+            <class>workflow.transition.test.DeadlineTransition</class>
+        </transition>
+    </metaset>
+</meta>

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<meta>
+    <metaset type="task_definition">
+        <name>cinnamon.test.ReviewTask</name>
+        <manual>true</manual>
+        <description>Edit the document</description>
+        <input>
+            <fixed>    <!-- This parameter should be set via the transition leading here. -->
+                <param>
+                    <type>document</type>
+                    <!-- id of a Cinnamon document -->
+                    <label>document</label>
+                    <name>document</name>
+                    <value></value>
+                </param>
+                <param>
+                    <type>string</type>
+                    <label>message.to.editor</label>
+                    <name>message</name>
+                    <value></value>
+                </param>
+            </fixed>
+            <required>
+                <param>
+                    <type>user</type>
+                    <!-- a Cinnamon user id -->
+                    <label>editor</label>
+                    <!-- screen label -->
+                    <name>editor</name>
+                    <!-- parameter name -->
+                    <value></value>
+                </param>
+            </required>
+            <optional>
+                <param>
+                    <type>string</type>
+                    <label>message.to.reviewer</label>
+                    <name>message</name>
+                    <value></value>
+                </param>
+            </optional>
+        </input>
+    </metaset>
+    <metaset type="transition">
+        <manual>true</manual>
+        <default>review_to_end</default>
+        <transition>
+            <show>true</show>
+            <confirm>false</confirm>
+            <name>review_to_edit</name>
+            <label>transition.edit</label>
+            <class>workflow.transition.test.ReviewToEdit</class>
+            <tasks>
+                <task name="edit_task">cinnamon.test.EditTask</task>
+            </tasks>
+        </transition>
+        <transition>
+            <show>true</show>
+            <confirm>false</confirm>
+            <name>review_to_end</name>
+            <label>transition.review.finished</label>
+            <class>workflow.transition.test.ReviewToEnd</class>
+            <tasks>
+            </tasks>
+        </transition>
+        <transition>
+            <show>true</show>
+            <confirm>true</confirm>
+            <name>cancel.review</name>
+            <label>transition.cancel.review</label>
+            <class>workflow.transition.test.CancelReviewWorkflow</class>
+        </transition>
+    </metaset>
+</meta>

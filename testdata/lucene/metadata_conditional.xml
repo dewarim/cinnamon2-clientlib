@@ -1,0 +1,3 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- test data contains a name element with value "Smaug" which also appears in a search_condition -->
+<TermQuery fieldName="conditional_content">smaug</TermQuery>
