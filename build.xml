@@ -19,17 +19,6 @@
     -->
     <property file="../cinnamon2-server/cinnamon.build.properties"/>
        
-    <property name="safran.home" value="${workspace.home}/CinnamonClient"/>
-    <property name="safran.src" value="${safran.home}/src"/>
-    <property name="safran.build" value="${safran.home}/build"/>
-    <property name="safran.build.classes" value="${safran.build}/classes"/>
-    <property name="safran.target" value="${safran.home}/target"/>
-    <property name="safran.jar" value="${safran.target}/safran.jar"/>
-    <property name="safran.full.jar" value="${safran.target}/target/safran.full.jar"/>
-    <property name="safran.mini.jar" value="${safran.target}/target/safran.mini.jar"/>
-
-    <property name="docs.home" value="${safran.home}/docs"/>
-
     <property name="cinnamonBase.home" value="${workspace.home}/CinnamonBase"/>
     <property name="cinnamonBase.src" value="${cinnamonBase.home}/src"/>
     <property name="cinnamonBase.build" value="${cinnamonBase.home}/build"/>
