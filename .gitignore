@@ -16,3 +16,6 @@ logback.xml
 config.properties
 log4j.properties
 test-output/**
+
+# cinnamonBase does not need to be versioned as it's easy to generate
+lib/cinnamonBase.jar
