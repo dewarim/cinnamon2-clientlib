@@ -28,8 +28,8 @@ public class Client {
     String username;
     String password;
     String machine = "localhost";
-    String repository = "cmn_test";
-    String url_server = "http://localhost:8080/cinnamon/cinnamon";
+    String repository = "demo";
+    String url_server = "http://localhost:8080/cinnamon/cinnamon/legacy";
 
     private transient Logger log = LoggerFactory.getLogger(this.getClass());
 
@@ -330,7 +330,7 @@ public class Client {
 
         String response = executeMethod(parts);
         log.debug("response: "+response);
-        sessionTicket = getFieldValue(response, "/connection/ticket");
+        sessionTicket = getFieldValue(response, "/connection/ticket");        
 //        log.debug("connect received session ticket: "+sessionTicket);
         return sessionTicket != null &&
                 sessionTicket.length() > 0 && sessionTicket.length() < 256;
@@ -1614,6 +1614,7 @@ public class Client {
             }
         }
         PostMethod query = new PostMethod(url_server);
+        query.setRequestHeader("ticket", sessionTicket);
         query.setRequestEntity(
                 new MultipartRequestEntity(parts, query.getParams())
         );
@@ -1901,6 +1902,7 @@ public class Client {
 
     Long getCurrentUserId() {
         String user = getUserByName(username);
+        log.debug("user-content: "+user);
         return parseLongNode(user, "/users/user/id");
     }
 
