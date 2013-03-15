@@ -94,7 +94,9 @@ public class LinkTest extends BaseTest {
     public void updateLinkTest() {
         try {
             // update acl
-            Long reviewAcl = Client.parseLongNode(client.getAcls(), "/acls/acl[sysName='review.acl']/id");
+            String aclQuery = client.getAcls();
+            log.debug("result of getAcls:"+aclQuery);
+            Long reviewAcl = Client.parseLongNode(aclQuery, "/acls/acl[sysName='review.acl']/id");
             String updateResult = client.updateLink(folderLink, null, reviewAcl, null, null);
             assert reviewAcl.equals(Client.parseLongNode(updateResult, "/link/folder/reference/aclId")) :
                     "Failed to update link with new ACL.";
