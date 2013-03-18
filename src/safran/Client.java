@@ -319,7 +319,7 @@ public class Client {
     }
 
     public Boolean connect() {
-        log.debug(String.format("starting connect() to %s with: user=%s rep=%s", url_server, username, repository));
+        log.debug(String.format("starting connect() to %s with: user=%s repository=%s", url_server, username, repository));
         Part[] parts = {
                 new StringPart("command", "connect"),
                 new StringPart("user", username),
@@ -867,15 +867,19 @@ public class Client {
     public boolean setContent(File file, String format, Long Id) {
         PostMethod query = new PostMethod(url_server);
         try {
+            ArrayList<Part> partList = new ArrayList<Part>();            
             Part[] parts = {
                     new StringPart("command", "setcontent"),
-                    new StringPart("id", Id.toString()),
-                    new FilePart("file", file),
-                    new StringPart("format", format),
+                    new StringPart("id", Id.toString()),                                       
                     new StringPart("ticket", sessionTicket),
             };
+            partList.addAll(Arrays.asList(parts));
+            if(file != null){
+                partList.add( new FilePart("file", file));
+                partList.add(new StringPart("format", format));
+            }
             query.setRequestEntity(
-                    new MultipartRequestEntity(parts, query.getParams())
+                    new MultipartRequestEntity(partList.toArray(new Part[partList.size()]), query.getParams())
             );
         } catch (FileNotFoundException e) {
             log.debug("Cannot set content with non-existent file.", e);
@@ -1394,6 +1398,7 @@ public class Client {
 
     public Boolean setMeta(Long id, String metadata) {
         String result = setMetaGetRawResponse(id, metadata);
+//        log.debug("setMeta result: "+result);
         result = getFieldValue(result, "/cinnamon/success");
         return result.equals("success.set.metadata");
     }
