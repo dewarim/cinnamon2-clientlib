@@ -17,7 +17,7 @@
         2. JAVA_LIB_HOME: the path to the directory which contains all required java libraries
         3. GRAILS_HOME: the path to your Grails install, at least version 2.1.1 is required.
     -->
-    <property file="../cinnamon2-server/cinnamon.build.properties"/>
+    <property file="${env.CINNAMON2_SOURCE}/cinnamon2-server/cinnamon.build.properties"/>
        
     <property name="cinnamonBase.home" value="${workspace.home}/CinnamonBase"/>
     <property name="cinnamonBase.src" value="${cinnamonBase.home}/src"/>
