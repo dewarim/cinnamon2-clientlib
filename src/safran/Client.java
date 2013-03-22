@@ -1050,9 +1050,14 @@ public class Client {
     }
 
     public String getFolderByPath(String path) {
+        return getFolderByPath(path, false);
+    }
+    
+    public String getFolderByPath(String path, Boolean autocreate) {
         Part[] parts = {
                 new StringPart("command", "getfolderbypath"),
                 new StringPart("path", "/" + path),
+                new StringPart("autocreate", autocreate.toString()),
                 new StringPart("ticket", sessionTicket),
         };
         return executeMethod(parts);
@@ -1372,6 +1377,24 @@ public class Client {
         Part[] parts = {
                 new StringPart("command", "getmeta"),
                 new StringPart("id", id.toString()),
+                new StringPart("ticket", sessionTicket),
+        };
+        return executeMethod(parts);
+    }
+
+    /**
+     * Fetch a metaset from the server and return it as a String.
+     * @param id id of OSD or folder object 
+     * @param type name of the metaset type
+     * @param className one of OSD, Folder, Metaset [Metaset currently disabled]
+     * @return the requested XML metaset as a string
+     */
+    public String getMetaset(Long id, String type, String className) {
+        Part[] parts = {
+                new StringPart("command", "getmetaset"),
+                new StringPart("id", id.toString()),
+                new StringPart("type_name", type),
+                new StringPart("class_name", className),
                 new StringPart("ticket", sessionTicket),
         };
         return executeMethod(parts);
