@@ -1,5 +1,6 @@
 package safran.test;
 
+import org.custommonkey.xmlunit.Diff;
 import org.dom4j.Document;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
@@ -7,12 +8,13 @@ import org.dom4j.Node;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
+import org.xml.sax.SAXException;
 import safran.Client;
 import server.global.Constants;
 import utils.ParamParser;
 
-import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.List;
 import java.util.Properties;
 
@@ -48,7 +50,7 @@ public class WorkflowTest extends BaseTest{
 	
 	@BeforeClass
 	public void setUp(){
-		super.setUp();
+		super.setUp(false);
 		workflowSetup();
 	}
 	
@@ -76,7 +78,7 @@ public class WorkflowTest extends BaseTest{
 		client.createRelation(Constants.RELATION_TYPE_WORKFLOW_TO_START_TASK, templateId, startTaskDefId);
 		client.createRelation(Constants.RELATION_TYPE_WORKFLOW_TO_DEADLINE_TASK, templateId, deadlineTaskDefId);
 		// Folder for test docs:
-		testFolderId = client.createFolder("documents", 0L);
+		testFolderId = Client.parseLongNode(client.getFolderByPath("documents", true), "/folders/folder/id");
 		
 		// setup for automatic transition test:
 		Long automaticTransitionTask = createTaskDef("cinnamon.test.AutomaticStartTask", 
@@ -137,8 +139,9 @@ public class WorkflowTest extends BaseTest{
 		log.debug("result: "+task);
 		startTaskId = Client.parseLongNode(task, "/objects/object/id");
 		assert ! startTaskId.equals(startTaskDefId) : "New task has id of taskdefiniton.";
-		assert client.getMeta(startTaskId).equals(client.getMeta(startTaskDefId)) :
-			"new task has wrong content:\n "+client.getMeta(startTaskId);
+        String startTaskMeta = client.getMetaset(startTaskId, "transition", "OSD").replaceAll("id=\"\\d+\"", "");
+        String startTaskDefMeta = client.getMetaset(startTaskDefId, "transition", "OSD").replaceAll("id=\"\\d+\"", "");
+        diffXml(startTaskMeta, startTaskDefMeta, "findStartTaskTest failed");
 		
 		// currently we need only the task, explicit tests are needed:
 		// TODO: test findOpenTasks - for all workflows && given owner
@@ -438,4 +441,18 @@ public class WorkflowTest extends BaseTest{
 	Long getTemplateId(){
 		return templateId;
 	}
+    
+    void diffXml(String a, String b, String msg){
+        Diff myDiff = null;
+        try {
+            myDiff = new Diff(a,b);
+        } catch (SAXException e) {
+            e.printStackTrace();
+            assert false : msg+"\n"+a;
+        } catch (IOException e) {
+            e.printStackTrace();
+            assert false : msg;
+        }
+        assert myDiff.similar() : "XML-Diff failed: \n"+msg+"\n"+a+"\n"+myDiff.toString();
+    }
 }
