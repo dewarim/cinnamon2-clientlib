@@ -83,6 +83,7 @@ target: compile.safran
         <javac srcdir="${safran.src}"
                destdir="${safran.build.classes}"
                debug="${compile.debug}"
+               includeantruntime="false"
                 >
             <classpath>
                 <path refid="compile.classpath"/>
@@ -116,6 +117,7 @@ target: compile.safran
             description="Compile the Cinnamon base lib and create the cinnamonBase.jar.">
         <javac srcdir="${cinnamonBase.src}"
                destdir="${cinnamonBase.build.classes}"
+               includeantruntime="false"
                debug="${compile.debug}">
             <classpath>
                 <path refid="compile.classpath"/>
