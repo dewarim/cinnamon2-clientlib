@@ -1399,6 +1399,25 @@ public class Client {
         };
         return executeMethod(parts);
     }
+    
+    /**
+     * Set a metaset's content.
+     * @param id id of OSD or folder object 
+     * @param type name of the metaset type
+     * @param className one of OSD, Folder, Metaset [Metaset currently disabled]
+     * @return the updated metaset as a string
+     */
+    public String setMetaset(Long id, String type, String className, String content) {
+        Part[] parts = {
+                new StringPart("command", "setmetaset"),
+                new StringPart("id", id.toString()),
+                new StringPart("type_name", type),
+                new StringPart("class_name", className),
+                new StringPart("content", content),
+                new StringPart("ticket", sessionTicket),
+        };
+        return executeMethod(parts);
+    }
 
     public String getFolderMeta(Long id) {
         Part[] parts = {
