@@ -1434,8 +1434,11 @@ public class Client {
     /**
      * Set the value of a config entry.
      * @param name name of the config entry
-     * @param config XML string for the config entry's value  
-     * @return the updated metaset as a string
+     * @param config XML string for the config entry's value
+     * @return XML-Response:
+     *         <pre>{@code
+     *         <configEntryId>$configEntryId</configEntryId>
+     *         }</pre>
      */
     public String setConfigEntry(String name, String config) {
         Part[] parts = {
