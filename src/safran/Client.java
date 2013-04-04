@@ -1414,7 +1414,39 @@ public class Client {
         };
         return executeMethod(parts);
     }
-
+    
+    /**
+     * Fetch an XML config entry from the server and return it as a String.
+     * Note: Access to config entries is limited to superusers unless the XML config entry
+     * contains the element {@code <isPublic>true</isPublic> }
+     * @param name the name of the config entry 
+     * @return the requested XML config as a string
+     */
+    public String getConfigEntry(String name) {
+        Part[] parts = {
+                new StringPart("command", "getconfigentry"),
+                new StringPart("name", name),
+                new StringPart("ticket", sessionTicket),
+        };
+        return executeMethod(parts);
+    }
+    
+    /**
+     * Set the value of a config entry.
+     * @param name name of the config entry
+     * @param config XML string for the config entry's value  
+     * @return the updated metaset as a string
+     */
+    public String setConfigEntry(String name, String config) {
+        Part[] parts = {
+                new StringPart("command", "setconfigentry"),
+                new StringPart("name", name),
+                new StringPart("config", config),
+                new StringPart("ticket", sessionTicket),
+        };
+        return executeMethod(parts);
+    }
+    
     public String getFolderMeta(Long id) {
         Part[] parts = {
                 new StringPart("command", "getfoldermeta"),
