@@ -41,17 +41,18 @@ public class Client {
      * Create a new Client object which is identical to the old one - except
      * for it's session and HTTP-client. If the original client's session was not null,
      * forkSession is called to generate a unique session for this client object.
+     *
      * @param oldClient the client object to copy.
      */
-    public Client(Client oldClient){
+    public Client(Client oldClient) {
         username = oldClient.getUsername();
         password = oldClient.getPassword();
-        machine  = oldClient.getMachine();
+        machine = oldClient.getMachine();
         repository = oldClient.getRepository();
         url_server = oldClient.url_server;
         props = oldClient.getProps();
         initializeHttpClient(url_server);
-        if(oldClient.getSessionTicket() != null){
+        if (oldClient.getSessionTicket() != null) {
             sessionTicket = oldClient.getSessionTicket();
             forkSession();
         }
@@ -121,9 +122,11 @@ public class Client {
         }
         if (result.charAt(0) == 'F') {
             return false;
-        } else if (result.charAt(0) == 'T') {
+        }
+        else if (result.charAt(0) == 'T') {
             return true;
-        } else {
+        }
+        else {
             throw new RuntimeException(msg);
         }
     }
@@ -329,7 +332,7 @@ public class Client {
         };
 
         String response = executeMethod(parts);
-        log.debug("response: "+response);
+        log.debug("response: " + response);
         sessionTicket = getFieldValue(response, "/connection/ticket");
 //        log.debug("connect received session ticket: "+sessionTicket);
         return sessionTicket != null &&
@@ -613,11 +616,11 @@ public class Client {
         };
         return executeMethod(parts);
     }
-    
+
     public String createLink(Long target, Long ownerId, Long aclId, Long parentId,
-                             String resolver, String type ) {
+                             String resolver, String type) {
         Part[] parts = {
-                new StringPart("command", "createlink"),                
+                new StringPart("command", "createlink"),
                 new StringPart("acl_id", aclId.toString()),
                 new StringPart("type", type),
                 new StringPart("owner_id", ownerId.toString()),
@@ -628,31 +631,31 @@ public class Client {
         };
         return executeMethod(parts);
     }
-    
+
     public String updateLink(Long linkId, Long ownerId, Long aclId, Long parentId,
                              String resolver) {
         ArrayList<Part> partList = new ArrayList<Part>();
         Part[] parts = {
-                new StringPart("command", "updatelink"),                
+                new StringPart("command", "updatelink"),
                 new StringPart("link_id", linkId.toString()),
                 new StringPart("ticket", sessionTicket),
         };
-        if(ownerId != null){
+        if (ownerId != null) {
             partList.add(new StringPart("owner_id", ownerId.toString()));
         }
-        if(aclId != null){
+        if (aclId != null) {
             partList.add(new StringPart("acl_id", aclId.toString()));
         }
-        if(parentId != null){
+        if (parentId != null) {
             partList.add(new StringPart("parent_id", parentId.toString()));
         }
-        if(resolver != null){
+        if (resolver != null) {
             partList.add(new StringPart("resolver", resolver));
         }
         partList.addAll(Arrays.asList(parts));
         return executeMethod(partList.toArray(new Part[partList.size()]));
     }
-    
+
     public Boolean deleteLink(Long linkId) {
         Part[] parts = {
                 new StringPart("command", "deletelink"),
@@ -662,7 +665,7 @@ public class Client {
         String result = getFieldValue(executeMethod(parts), "success");
         return result.contains("success.delete.link");
     }
-    
+
     public String addGroupToAcl(Long groupId, Long aclId) {
         Part[] parts = {
                 new StringPart("command", "addgrouptoacl"),
@@ -891,8 +894,7 @@ public class Client {
         } catch (IOException e) {
             log.debug("", e);
             throw new RuntimeException(e);
-        }
-        finally{
+        } finally {
             query.releaseConnection();
         }
         result = getFieldValue(result, "/success");
@@ -964,34 +966,34 @@ public class Client {
         parts.add(new StringPart("command", "zipfolder"));
         parts.add(new StringPart("ticket", sessionTicket));
         parts.add(new StringPart("id", id.toString()));
-        if(latestHead != null){
+        if (latestHead != null) {
             parts.add(new StringPart("latest_head", latestHead.toString()));
         }
-        if(latestBranch != null){
+        if (latestBranch != null) {
             parts.add(new StringPart("latest_branch", latestBranch.toString()));
         }
         return executeMethodReturnFile(parts.toArray(new Part[parts.size()]));
     }
-    
+
     public Long zipFolderToObject(Long id, Boolean latestHead, Boolean latestBranch, Long targetFolderId,
-                          String objectTypeName, String objectMeta) {
+                                  String objectTypeName, String objectMeta) {
         List<StringPart> parts = new ArrayList<StringPart>();
         parts.add(new StringPart("command", "zipfolder"));
         parts.add(new StringPart("ticket", sessionTicket));
         parts.add(new StringPart("id", id.toString()));
-        if(latestHead != null){
+        if (latestHead != null) {
             parts.add(new StringPart("latest_head", latestHead.toString()));
         }
-        if(latestBranch != null){
+        if (latestBranch != null) {
             parts.add(new StringPart("latest_branch", latestBranch.toString()));
         }
-        if(targetFolderId != null){
+        if (targetFolderId != null) {
             parts.add(new StringPart("target_folder_id", targetFolderId.toString()));
         }
-        if(objectTypeName != null){
+        if (objectTypeName != null) {
             parts.add(new StringPart("object_type_name", objectTypeName));
         }
-        if(objectMeta != null){
+        if (objectMeta != null) {
             parts.add(new StringPart("object_meta", objectMeta));
         }
         return parseLongNode(executeMethod(parts.toArray(new Part[parts.size()])), "//objectId");
@@ -1048,7 +1050,7 @@ public class Client {
     public String getFolderByPath(String path) {
         return getFolderByPath(path, false);
     }
-    
+
     public String getFolderByPath(String path, Boolean autocreate) {
         Part[] parts = {
                 new StringPart("command", "getfolderbypath"),
@@ -1181,7 +1183,7 @@ public class Client {
         log.debug(String.format("create Parts with name=%s and description=%s and sessionTicket=%s",
                 name, description, sessionTicket));
         StringPart cmd = new StringPart("command", "createacl");
-        StringPart aclName = new StringPart("name", name );
+        StringPart aclName = new StringPart("name", name);
         StringPart desc = new StringPart("description", description);
         StringPart ticket = new StringPart("ticket", sessionTicket);
         Part[] parts = {
@@ -1239,16 +1241,16 @@ public class Client {
      * group specified by this id is returned.
      *
      * @param id id of a group. Set to null to list all groups. Set to a group's id
-     * to receive only this group's data.
+     *           to receive only this group's data.
      * @return XML-Response in the format
-     * <pre>
-     *  {@code
-     *    <groups>
-     *      <group><id>123</id>...</group>
-     *      ...
-     *      </groups>
-     * }
-     * </pre>
+     *         <pre>
+     *          {@code
+     *            <groups>
+     *              <group><id>123</id>...</group>
+     *              ...
+     *              </groups>
+     *         }
+     *         </pre>
      */
     public String listGroups(Long id) {
         if (id != null && id > 0L) {
@@ -1258,7 +1260,8 @@ public class Client {
                     new StringPart("ticket", sessionTicket),
             };
             return executeMethod(parts);
-        } else {
+        }
+        else {
             Part[] parts = {
                     new StringPart("command", "listgroups"),
                     new StringPart("ticket", sessionTicket),
@@ -1329,7 +1332,7 @@ public class Client {
     public String getWorkflowTemplateList() {
         // determine WorkflowTemplate-ObjectType:
         String ids = getObjectTypeIdByName(Constants.OBJTYPE_WORKFLOW_TEMPLATE);
-        log.debug("workflowTemplateObjectTypeId: "+ids);
+        log.debug("workflowTemplateObjectTypeId: " + ids);
         Long id = Long.parseLong(ids);
         String query = String.format("<BooleanQuery><Clause occurs='must'><TermQuery fieldName='objecttype'>%020d</TermQuery></Clause>" +
                 "<Clause occurs='must'><TermQuery fieldName='active_workflow'>true</TermQuery></Clause></BooleanQuery>", id);
@@ -1380,8 +1383,9 @@ public class Client {
 
     /**
      * Fetch a metaset from the server and return it as a String.
-     * @param id id of OSD or folder object 
-     * @param type name of the metaset type
+     *
+     * @param id        id of OSD or folder object
+     * @param type      name of the metaset type
      * @param className one of OSD, Folder, Metaset [Metaset currently disabled]
      * @return the requested XML metaset as a string
      */
@@ -1395,11 +1399,12 @@ public class Client {
         };
         return executeMethod(parts);
     }
-    
+
     /**
      * Set a metaset's content.
-     * @param id id of OSD or folder object 
-     * @param type name of the metaset type
+     *
+     * @param id        id of OSD or folder object
+     * @param type      name of the metaset type
      * @param className one of OSD, Folder, Metaset [Metaset currently disabled]
      * @return the updated metaset as a string
      */
@@ -1414,12 +1419,13 @@ public class Client {
         };
         return executeMethod(parts);
     }
-    
+
     /**
      * Fetch an XML config entry from the server and return it as a String.
      * Note: Access to config entries is limited to superusers unless the XML config entry
      * contains the element {@code <isPublic>true</isPublic> }
-     * @param name the name of the config entry 
+     *
+     * @param name the name of the config entry
      * @return the requested XML config as a string
      */
     public String getConfigEntry(String name) {
@@ -1430,10 +1436,11 @@ public class Client {
         };
         return executeMethod(parts);
     }
-    
+
     /**
      * Set the value of a config entry.
-     * @param name name of the config entry
+     *
+     * @param name   name of the config entry
      * @param config XML string for the config entry's value
      * @return XML-Response:
      *         <pre>{@code
@@ -1449,7 +1456,7 @@ public class Client {
         };
         return executeMethod(parts);
     }
-    
+
     public String getFolderMeta(Long id) {
         Part[] parts = {
                 new StringPart("command", "getfoldermeta"),
@@ -1702,8 +1709,7 @@ public class Client {
         } catch (IOException e) {
             log.debug("", e);
             throw new RuntimeException(e);
-        }
-        finally{
+        } finally {
             query.releaseConnection();
         }
         if (checkForSessionFailure(result)) {
@@ -1717,7 +1723,8 @@ public class Client {
                 log.debug("new session ticket:" + sessionTicket);
                 // try again after successful reconnect:
                 result = executeMethod(parts);
-            } else {
+            }
+            else {
                 log.debug("reconnect failed.");
             }
 
@@ -1785,8 +1792,7 @@ public class Client {
         } catch (IOException e) {
             log.debug("", e);
             throw new RuntimeException(e);
-        }
-        finally{
+        } finally {
             query.releaseConnection();
         }
         return response;
@@ -2136,7 +2142,8 @@ public class Client {
             Element metasetElement;
             if (metasetNode == null) {
                 metasetElement = metaDoc.getRootElement().addElement("metaset").addAttribute("type", metaset);
-            } else {
+            }
+            else {
                 metasetElement = (Element) metasetNode;
             }
             metasetElement.add(doc.getRootElement().detach());
@@ -2190,6 +2197,7 @@ public class Client {
 
     /**
      * Keep track of the number of reconnects. This is used for debugging and testing.
+     *
      * @return the current number of reconnects.
      */
     public Integer getReconnects() {
