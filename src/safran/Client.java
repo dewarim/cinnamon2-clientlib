@@ -519,10 +519,15 @@ public class Client {
         return executeMethod(parts);
     }
 
-    public String reindex(String type) {
+    /**
+     * Schedule all folders and objects in the database to be re-indexed.
+     * This may take a long time.
+     * Note: this command requires superuser privileges.
+     * @return the success or error XML document, depending on whether the action was successful. 
+     */
+    public String reindex() {
         Part[] parts = {
                 new StringPart("command", "reindex"),
-                new StringPart("target", type),
                 new StringPart("ticket", sessionTicket),
         };
         return executeMethod(parts);
