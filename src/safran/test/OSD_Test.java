@@ -48,7 +48,7 @@ public class OSD_Test extends BaseTest {
 	
 	@BeforeClass
 	public void setUp(){
-		super.setUp();
+		super.setUp(false);
 		createTestFile();
 	}
 

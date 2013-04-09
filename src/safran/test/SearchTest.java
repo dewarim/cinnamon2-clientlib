@@ -29,7 +29,7 @@ public class SearchTest extends BaseTest{
 	
 	@BeforeClass
 	public void setUp(){
-		super.setUp(true);	
+		super.setUp(false);	
 		
 		// clear the index on the test system
 		client.clearIndex("server.Folder");
