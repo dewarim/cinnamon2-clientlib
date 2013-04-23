@@ -674,8 +674,8 @@ public class Client {
     public String addGroupToAcl(Long groupId, Long aclId) {
         Part[] parts = {
                 new StringPart("command", "addgrouptoacl"),
-                new StringPart("aclid", aclId.toString()),
-                new StringPart("groupid", groupId.toString()),
+                new StringPart("acl_id", aclId.toString()),
+                new StringPart("group_id", groupId.toString()),
                 new StringPart("ticket", sessionTicket),
         };
         return executeMethod(parts);
