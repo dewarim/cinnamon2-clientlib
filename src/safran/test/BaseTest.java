@@ -46,7 +46,7 @@ public class BaseTest {
 				assert setup.initializeDatabase() : "Could not initialize database";
 			}
 			else{
-				setup.reloadCinnamon();
+//				setup.reloadCinnamon();
 			}
 			assert client.connect() : "Could not connect to server.";
 			assert client.getSessionTicket() != null : "SessionTicket is null.";
