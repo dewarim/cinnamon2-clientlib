@@ -14,5 +14,5 @@ License: LGPL 2.1 or later
 
 Maintainer: Ingo Wiarda
 
-Contact: ingo.wiarda@horner-project.eu
+Contact: ingo_wiarda@dewarim.de
 
