@@ -20,9 +20,9 @@ public class ReIndexTest extends BaseTest{
 	
 	@Test // should probably have its own test class.
 	public void reindexTest() {
-		String xml = client.reindex("objects");
+		String xml = client.reindex();
 		log.debug(xml);
-		assert xml.contains("reindexResult"): "missing 'reindexResult'-Tag - received:\n"+xml;
+		assert xml.contains("success.reindex"): "missing 'success.reindex'-Tag - received:\n"+xml;
 	}
 	
 	@AfterClass
