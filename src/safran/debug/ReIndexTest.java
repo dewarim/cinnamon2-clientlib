@@ -1,5 +1,6 @@
 package safran.debug;
 
+import org.junit.Ignore;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -10,6 +11,8 @@ import safran.test.BaseTest;
  * It is intended for testing IndexServer-performance and functionality.
  *
  */
+@Test
+@Ignore("needs refactoring - searchTest contains duplicate code ")
 public class ReIndexTest extends BaseTest{
 
 	
@@ -20,9 +23,9 @@ public class ReIndexTest extends BaseTest{
 	
 	@Test // should probably have its own test class.
 	public void reindexTest() {
-		String xml = client.reindex();
+		String xml = client.reindex("objects");
 		log.debug(xml);
-		assert xml.contains("success.reindex"): "missing 'success.reindex'-Tag - received:\n"+xml;
+		assert xml.contains("reindexResult"): "missing 'reindexResult'-Tag - received:\n"+xml;
 	}
 	
 	@AfterClass
